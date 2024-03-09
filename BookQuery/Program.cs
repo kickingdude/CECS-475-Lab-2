@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookQuery
 {
@@ -13,74 +10,80 @@ namespace BookQuery
             BooksEntities1 dbcontext =
              new BooksEntities1();
             // get authors and ISBNs of each book they co-authored
-            var authorsAndISBNs =
-               from author in dbcontext.Authors
-               from book in author.Titles
-               orderby author.LastName, author.FirstName
-               select new { author.FirstName, author.LastName, book.ISBN, book.EditionNumber, book.Copyright };
-
-            Console.WriteLine("Authors and ISBNs:");
-
-            // display authors and ISBNs in tabular format
-            foreach (var element in authorsAndISBNs)
-            {
-                Console.Write(
-                   String.Format("\r\n\t{0,-10} {1,-10} {2,-10} {3,-10}{4,-10}",
-                      element.FirstName, element.LastName, element.ISBN, element.EditionNumber, element.Copyright));
-            } // end foreach
-
             // get authors and titles of each book they co-authored
-            var authorsAndTitles =
+            var TitlesandAuthors =
                from book in dbcontext.Titles
                from author in book.Authors
-               orderby author.LastName, author.FirstName, book.Title1
+               orderby book.Title1
                select new
                {
                    author.FirstName,
                    author.LastName,
-                   book.Title1,
-                   book.EditionNumber
+                   book.Title1
                };
 
             Console.WriteLine("\r\n\r\nAuthors and titles:");
 
             // display authors and titles in tabular format
-            foreach (var element in authorsAndTitles)
+            foreach (var element in TitlesandAuthors)
             {
                 Console.Write(
                    String.Format("\r\n\t{0,-10} {1,-10} {2}",
-                      element.FirstName, element.LastName, element.Title1, element.EditionNumber));
+                      element.Title1, element.FirstName, element.LastName));
             } // end foreach
+
+            var AuthorsandTitles =
+               from author in dbcontext.Authors
+               from book in author.Titles
+               orderby book.Title1, author.FirstName, author.LastName
+               select new
+               {
+                   author.FirstName,
+                   author.LastName,
+                   book.Title1
+               };
+
+            Console.WriteLine("\r\n\r\nAuthors and titles with authors sorted for each :");
+
+            // display authors and ISBNs in tabular format
+            foreach (var element in AuthorsandTitles)
+            {
+                Console.Write(
+                   String.Format("\r\n\t{0,-10} {1,-10} {2}",
+                      element.Title1, element.FirstName, element.LastName));
+            } // end foreach
+
+
 
             // get authors and titles of each book 
             // they co-authored; group by author
             var titlesByAuthor =
-               from author in dbcontext.Authors
-               orderby author.LastName, author.FirstName
+               from titles in dbcontext.Titles
+               orderby titles.Title1
                select new
                {
-                   Name = author.FirstName + " " + author.LastName,
-                   Titles =
-                     from book in author.Titles
-                     orderby book.Title1
-                     select book.Title1
+
+
+                   Titles = titles.Title1,
+                   Name = titles.Authors
+
                };
 
             Console.Write("\r\n\r\nTitles grouped by author:");
 
             // display titles written by each author, grouped by author
-            foreach (var author in titlesByAuthor)
+            foreach (var Titles in titlesByAuthor)
             {
                 // display author's name
-                Console.Write("\r\n\t" + author.Name + ":");
+                Console.Write("\r\n\t" + Titles.Titles + ":");
 
                 // display titles written by that author
-                foreach (var title in author.Titles)
+                foreach (var author in Titles.Name)
                 {
-                    Console.Write("\r\n\t\t" + title);
+                    Console.Write("\r\n\t\t" + author.FirstName + " " + author.LastName + "");
                 } // end inner foreach
             } // end outer foreach
-           
+            Console.WriteLine("");
 
         }
     }
