@@ -9,9 +9,9 @@
 
 using System;
 using System.ComponentModel;
-using System.Data.EntityClient;
-using System.Data.Objects;
-using System.Data.Objects.DataClasses;
+using System.Data.Entity.Core.EntityClient;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Core.Objects.DataClasses;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
@@ -19,7 +19,7 @@ using System.Xml.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("BooksModel", "AuthorISBN", "Authors", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BookQuery.Author), "Titles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BookQuery.Title))]
+[assembly: EdmRelationshipAttribute("BooksModel", "AuthorISBN", "Authors", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BookQuery.Author), "Titles", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BookQuery.Title))]
 
 #endregion
 
