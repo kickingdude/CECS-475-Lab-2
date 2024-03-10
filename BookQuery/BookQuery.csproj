@@ -104,13 +104,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Books.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Books_log.ldf">
-      <DependentUpon>Books.mdf</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="ModelBook.Context.tt">
       <DependentUpon>ModelBook.edmx</DependentUpon>
       <Generator>TextTemplatingFileGenerator</Generator>
