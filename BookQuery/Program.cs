@@ -65,7 +65,7 @@ namespace BookQuery
 
 
                    Titles = titles.Title1,
-                   Name = titles.Authors
+                   Name = titles.Authors.OrderBy(a => a.FirstName)
 
                };
 
